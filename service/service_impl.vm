@@ -1,0 +1,32 @@
+#set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
+#if( $entity.hasCompositePrimaryKey() )
+#set( $entityKeyType = ${entity.name} + "EntityKey" )
+#else
+#set( $entityKeyType = ${entity.keyAttributes[0].formattedType(0)} )
+#end
+##--------------------------------------------------------------------------------------------------------
+package ${target.javaPackageFromFolder(${SRC})};
+
+import org.springframework.data.repository.PagingAndSortingRepository;
+import ${ENTITY_PKG}.${entity.name};
+#if ( $entity.hasCompositePrimaryKey() )
+import ${ENTITY_PKG}.${entityKeyType};
+#end
+
+/**
+ * Repository : ${entity.name}.
+ */
+public class ${entity.name}ServiceImpl 
+		extends AbstractCrudService<${entity.name}, ${entityKeyType}, ${entity.name}Repository>
+        implements
+        ${entity.name}Service {
+
+	@Autowired
+    private ${entity.name}Repository ${uncapitalizedEntityName}Repository;
+
+    @Override
+    public ${entity.name}Repository getRepository() {
+        return ${uncapitalizedEntityName}Repository;
+    }
+
+}
