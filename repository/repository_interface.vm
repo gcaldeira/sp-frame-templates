@@ -6,15 +6,19 @@
 ##--------------------------------------------------------------------------------------------------------
 package ${target.javaPackageFromFolder(${SRC})};
 
-import br.com.socialpro.service.CrudService;
-import ${ENTITY_PKG}.jpa.${entity.name}Entity;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
+import ${ENTITY_PKG}.model.${entity.name};
 #if ( $entity.hasCompositePrimaryKey() )
-import ${ENTITY_PKG}.jpa.${entityKeyType};
+import ${ENTITY_PKG}.${entityKeyType};
 #end
 
 /**
  * Repository : ${entity.name}.
  */
-public interface ${entity.name}Repository extends PagingAndSortingRepository<${entity.name}, ${entityKeyType}> {
+@Repository
+public interface ${entity.name}Repository extends PagingAndSortingRepository<${entity.name}, ${entityKeyType}>,
+        JpaSpecificationExecutor<${entity.name}> {
 
 }

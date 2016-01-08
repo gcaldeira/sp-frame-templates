@@ -1,0 +1,30 @@
+#set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
+#set( $lowerEntityName = $fn.toLowerCase($entity.name) )
+#if( $entity.hasCompositePrimaryKey() )
+#set( $entityKeyType = ${entity.name} + "EntityKey" )
+#else
+#set( $entityKeyType = ${entity.keyAttributes[0].formattedType(0)} )
+#end
+package ${target.javaPackageFromFolder($SRC)};
+
+import ${ENTITY_PKG}.model.${entity.name};
+import ${ENTITY_PKG}.service.${entity.name}Service;
+import br.com.socialpro.controller.AbstractCrudController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping({"/${lowerEntityName}"})
+public class ${entity.name}Controller
+        extends
+        AbstractCrudController<${entity.name}, ${entityKeyType}, ${entity.name}Service> {
+
+    @Autowired
+    private ${entity.name}Service ${uncapitalizedEntityName}Service;
+
+    @Override
+    public ${entity.name}Service getService() {
+        return ${uncapitalizedEntityName}Service;
+    }
+}

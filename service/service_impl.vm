@@ -7,15 +7,17 @@
 ##--------------------------------------------------------------------------------------------------------
 package ${target.javaPackageFromFolder(${SRC})};
 
-import org.springframework.data.repository.PagingAndSortingRepository;
-import ${ENTITY_PKG}.${entity.name};
+import br.com.socialpro.service.impl.AbstractCrudService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${ENTITY_PKG}.model.${entity.name};
+import ${ENTITY_PKG}.service.${entity.name}Service;
+import ${ENTITY_PKG}.repository.${entity.name}Repository;
 #if ( $entity.hasCompositePrimaryKey() )
 import ${ENTITY_PKG}.${entityKeyType};
 #end
 
-/**
- * Repository : ${entity.name}.
- */
+@Service
 public class ${entity.name}ServiceImpl 
 		extends AbstractCrudService<${entity.name}, ${entityKeyType}, ${entity.name}Repository>
         implements

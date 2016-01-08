@@ -1,0 +1,18 @@
+#set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
+##--------------------------------------------------------------------------------------------------------
+##--------------------------------------------------------------------------------------------------------
+## Key fields = fields in Primary Key    
+#set( $keyFields = $entity.keyAttributes )
+##--------------------------------------------------------------------------------------------------------
+## Data fields = fields not in Primary Key    
+model.${uncapitalizedEntityName}=model.${uncapitalizedEntityName}
+model.${uncapitalizedEntityName}.new=model.${uncapitalizedEntityName}.new
+model.${uncapitalizedEntityName}.list=model.${uncapitalizedEntityName}.list
+model.${uncapitalizedEntityName}.edit=model.${uncapitalizedEntityName}.edit
+model.${uncapitalizedEntityName}.delete=model.${uncapitalizedEntityName}.delete
+model.${uncapitalizedEntityName}.delete.confirm=model.${uncapitalizedEntityName}.delete.confirm
+
+#set( $dataFields = $entity.nonKeyAttributes )
+#foreach( $field in $dataFields )
+model.${uncapitalizedEntityName}.${field.name}=model.${uncapitalizedEntityName}.${field.name}
+#end

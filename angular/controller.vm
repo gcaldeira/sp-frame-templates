@@ -1,0 +1,24 @@
+#set( $_ = ${DOLLAR} )
+#set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
+#set( $lowerEntityName = $fn.toLowerCase($entity.name) )
+'use strict';
+(function () {
+
+	function ${entity.name}ListCtrl(${_}scope, ${_}state, ${_}stateParams, ${uncapitalizedEntityName}Service) {
+    	SP_APP.makeCrudListCtrl(${_}scope, ${_}state, ${_}stateParams, '${lowerEntityName}', ${uncapitalizedEntityName}Service);
+    	${_}scope.load();
+	}
+
+	function ${entity.name}EditCtrl(${_}scope, ${_}state, ${_}stateParams, ${uncapitalizedEntityName}Service) {
+    	SP_APP.makeCrudEditCtrl(${_}scope, ${_}state, ${_}stateParams, '${lowerEntityName}', ${uncapitalizedEntityName}Service);
+	}
+
+	function ${entity.name}StateConfig(${_}stateProvider) {
+    	SP_APP.makeCrudStateConfig(${_}stateProvider, '${lowerEntityName}', 'views/common/content', ${entity.name}ListCtrl, ${entity.name}EditCtrl);
+	}
+
+	angular.module(SP_APP.name).controller('${entity.name}ListCtrl', ${entity.name}ListCtrl);
+	angular.module(SP_APP.name).controller('${entity.name}EditCtrl', ${entity.name}EditCtrl);
+	angular.module(SP_APP.name).config(${entity.name}StateConfig);
+
+})();

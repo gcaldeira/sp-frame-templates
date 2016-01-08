@@ -1,0 +1,10 @@
+#set( $_ = ${DOLLAR} )
+#set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
+#set( $lowerEntityName = $fn.toLowerCase($entity.name) )
+'use strict';
+(function () {
+    angular.module(SP_APP.name).service('${uncapitalizedEntityName}Service', function (${_}http) {
+        var service = SP_APP.makeCrudService('/${lowerEntityName}', ${_}http);
+        return service;
+    });
+})();

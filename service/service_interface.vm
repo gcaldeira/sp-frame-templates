@@ -1,3 +1,4 @@
+
 #if( $entity.hasCompositePrimaryKey() )
 #set( $entityKeyType = ${entity.name} + "EntityKey" )
 #else
@@ -6,8 +7,8 @@
 ##--------------------------------------------------------------------------------------------------------
 package ${target.javaPackageFromFolder(${SRC})};
 
-import org.springframework.data.repository.PagingAndSortingRepository;
-import ${ENTITY_PKG}.jpa.${entity.name}Entity;
+import br.com.socialpro.service.CrudService;
+import ${ENTITY_PKG}.model.${entity.name};
 #if ( $entity.hasCompositePrimaryKey() )
 import ${ENTITY_PKG}.jpa.${entityKeyType};
 #end

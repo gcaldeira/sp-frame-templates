@@ -1,0 +1,79 @@
+#set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
+#set( $_= "$" )
+##--------------------------------------------------------------------------------------------------------
+##--------------------------------------------------------------------------------------------------------
+## Key fields = fields in Primary Key    
+#set( $keyFields = $entity.keyAttributes )
+##--------------------------------------------------------------------------------------------------------
+## Data fields = fields not in Primary Key    
+#set( $dataFields = $entity.nonKeyAttributes )
+<div class="animated fadeInRight" ng-init="init()">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>
+						{{ 'model.${uncapitalizedEntityName}.edit' | translate }}
+                    </h5>
+
+                    <div class="ibox-tools">
+                        <a ui-sref="^.list" ng-click="cancel()" title="Cancel"><i class="fa fa-reply"></i></a>
+                        <a ng-disabled="form${entity.name}.${_}invalid" ng-click="save()" title="Save and Add"><i
+                                class="fa fa-plus-square"></i></a>
+                        <a ng-disabled="form${entity.name}.${_}invalid" ng-click="save({leave:true})" title="Save"><i
+                                class="fa fa-check"></i></a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+					<div ng-include="'common/form-messages'"></div>
+						<form class="form" name="form${entity.name}" ng-submit="" role="form">
+#foreach( $field in $dataFields )
+#set($htmlId      = "${uncapitalizedEntityName}_${field.name}" )
+#set($htmlName    = $field.name )
+#set($fields = [])
+#set($ttt = $fields.add($field))
+#set($referencedEntityTypes = $entity.referencedEntityTypes($fields) )
+#set($ng_disabled = "")
+#if( $field.isKeyElement() )
+#set($ng_disabled = " ng-disabled=""mode != 'create'""")
+#end
+  							<div class="row">
+                            	<div class="col-sm-12">
+									<div class="form-group">
+										<label for="${htmlId}" class="control-label">{{ 'model.${uncapitalizedEntityName}.${field.formattedName(0)}' | translate }}</label>								
+	## ------------------------------------------------ KEY ELEMENT 
+#if( $referencedEntityTypes.size() == 0 )
+#if( $field.fullType == "java.util.Date" || $field.fullType == "java.sql.Date" || $field.fullType == "java.util.Calendar" )
+										<input id="${htmlId}" date-time="" format="yyyy-MM-dd" ng-model="entity.${htmlName}"
+												name="${htmlName}" class="form-control" $ng_disabled/>
+#elseif( $field.fullType == "java.sql.Time" )
+										<input id="${htmlId}" date-time="" format="HH:mm" view="time" min-view="minutes" max-view="hours" ng-model="entity.${htmlName}" 
+												name="${htmlName}" class="form-control" $ng_disabled/>
+#elseif( $field.isLongText() )
+										<textarea id="${htmlId}" name="${htmlName}" ng-model="entity.${htmlName}" 
+											class="form-control" $ng_disabled></textarea>
+#else
+										<input type="text" id="${htmlId}" name="${htmlName}" ng-model="entity.${htmlName}" class="form-control" 
+											maxLength="${field.guiMaxLength}" $ng_disabled/>
+#end
+#end
+#if( $referencedEntityTypes.size() > 0 )
+#set( $ref = ${fn.uncapitalize($referencedEntityTypes.get(0))} )
+										<select name="frequency" required="" ng-options="${ref} in items.${ref}s" 
+											ng-model="${fn.uncapitalize($entity.name)}.${htmlName}" class="form-control m-b" />
+#end
+									</div>
+								</div>
+							</div>
+#end
+						<div class="form-group text-right">
+            				<button class="btn btn-white" type="button" ng-click="cancel()">Cancel</button>
+                			<button class="btn btn-primary" ng-disabled="form${entity.name}.${_}invalid" type="submit" ng-click="save()">Save and Add another</button>
+                			<button class="btn btn-primary" ng-disabled="form${entity.name}.${_}invalid" type="submit" ng-click="save({leave:true})">Save</button>
+            			</div>
+					</form>			
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
